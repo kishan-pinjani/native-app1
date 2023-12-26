@@ -1,8 +1,18 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from "react-native-elements";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({ navigation }) => {
+    const [userName, setUserName] = useState("")
+    const getToken = async () => {
+        const loginUser = await AsyncStorage.getItem("loginUser")
+        setUserName(loginUser)
+    }
+    useEffect(() => {
+        getToken()
+    }, [])
+
     return (
         <>
             <View style={styles.container}>
@@ -25,6 +35,10 @@ const HomeScreen = ({ navigation }) => {
                     titleStyle={{ marginHorizontal: 5 }}
                     type="outline"
                 />
+                <Text style={{ fontWeight: "bold" }}>User Name : - {userName} </Text>
+                {/* <Text>{AsyncStorage.getItem("loginUser")}</Text>
+                <Text>{AsyncStorage.getItem("frontAuth")}</Text>
+                <Text>{AsyncStorage.getItem("Guest")}</Text> */}
             </View>
         </>
     )
