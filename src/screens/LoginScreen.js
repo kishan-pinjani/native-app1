@@ -1,4 +1,4 @@
-import { Dimensions, ImageBackground, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Dimensions, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/Entypo';
 import React, { useState } from 'react'
@@ -7,8 +7,27 @@ import * as Yup from "yup";
 import api from '../utills/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { encode } from 'base-64';
+// import { useFocusEffect } from '@react-navigation/native';
+import { Image } from "react-native-elements";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
+
+    {/* 
+
+         // code for hiding header on login screen
+
+        useFocusEffect(() => {
+            const unsubscribe = navigation.addListener('focus', () => {
+                navigation.setOptions({ headerShown: false });
+            });
+
+            return () => {
+                unsubscribe();
+            };
+        }, [navigation])
+
+    */}
+
     const [errorMsg, setErrorMsg] = useState("");
 
     const formik = useFormik({
@@ -72,22 +91,29 @@ const LoginScreen = () => {
                 style={{ height: Dimensions.get('window').height / 2.5 }}
             >
                 <View style={styles.brandView}>
-                    <Icon name='open-book' style={{ color: "#000000", fontSize: 100 }} />
+                    <Image
+                        containerStyle={{}}
+                        placeholderStyle={{}}
+                        transitionDuration={1000}
+                        source={require('../../images/MEDICAL_COLLEGE_LOGO_small.png')}
+                        style={{ width: 100, height: 100, borderTopRightRadius: 50, borderTopLeftRadius: 50, borderBottomRightRadius: 10, borderBottomLeftRadius: 10 }}
+                    />
+                    {/* <Icon name='open-book' style={{ color: "#000000", fontSize: 100 }} /> */}
                     <Text style={{ color: "#000000", fontSize: 40, fontWeight: "bold" }}>EGMCB</Text>
                 </View>
             </ImageBackground>
-            <View>
+            <View style={{ marginBottom: -100 }}>
                 {/* Welcome View */}
                 <View style={styles.bottemView}>
                     <View style={{ padding: 40 }}>
-                        <Text style={{ color: "#44caee", fontSize: 34 }}>Welcome</Text>
-                        <Text>
+                        <Text style={{ color: "#44caee", fontSize: 34 }}>Welcome back!</Text>
+                        <Text style={{ marginTop: 10 }}>
                             Don't have an account?
-                            <Text style={{ color: "red", fontStyle: "italic" }} >
+                            <Text style={{ color: "red", fontStyle: "italic" }} onPress={() => navigation.navigate("SignUp")} >
                                 {' '} Register now
                             </Text>
                         </Text>
-                        <View style={{ marginTop: 40 }}>
+                        <View style={{ marginTop: 10 }}>
                             <TextInput
                                 style={{ marginTop: 40, borderBottomColor: "#ddd", borderBottomWidth: 1, paddingBottom: 15 }}
                                 placeholder='E-mail/Mobile no'
@@ -121,7 +147,7 @@ const LoginScreen = () => {
                         </View>
                         <View style={styles.forgotPassView}>
                             <View style={{ flex: 1, marginRight: -1 }}>
-                                <Text style={{ color: "#8f9195", alignSelf: "flex-end" }}>
+                                <Text style={{ color: "#8f9195", alignSelf: "flex-end" }} onPress={() => navigation.navigate("ForgottPassword")}>
                                     Forgot Password?
                                 </Text>
                             </View>
